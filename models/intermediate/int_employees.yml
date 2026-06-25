@@ -1,0 +1,32 @@
+version : 2
+
+models:
+  - name: int_employees_merged
+    description: "Intermidiate layer to merge Axios and Apsen Employees"
+
+    columns:
+      - name: source
+        description: Source system code (axi or asp).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['axi', 'asp']
+
+      - name: employee_id
+        description: Unique employee identifier within source system.
+        tests:
+          - not_null
+          - unique
+
+      - name: client_id
+        description: Client identifier from lookup table.
+        tests:
+          - not_null
+          - unique
+
+      - name: hash_key
+        description: MD5 hash of employee_id, source, and client_id.
+        tests:
+          - not_null
+  

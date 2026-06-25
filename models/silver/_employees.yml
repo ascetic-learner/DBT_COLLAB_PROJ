@@ -10,25 +10,23 @@ models:
       - name: employee_id
         description: Unique employee identifier within source system.
         tests:
-          - not_null:
-              arguments: {}
+          - not_null
       - name: source
         description: Source system code (axi or asp).
         tests:
-          - not_null:
-              arguments: {}
+          - not_null
           - accepted_values:
               arguments:
                 values: ['axi', 'asp']
       - name: hash_key
         description: MD5 hash of employee_id, source, and client_id.
         tests:
-          - not_null:
-              arguments: {}
-          - unique:
-              arguments: {}
+          - not_null
+          - unique
       - name: hash_key_for_update
         description: SHA256 hash of all attribute columns for change detection.
+        tests:
+          - not_null
       - name: legal_id
         description: Legal entity identifier from lookup table.
       - name: hr_client_id

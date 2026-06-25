@@ -23,10 +23,8 @@ seeds:
 models:
   data_eng_dbt:
     staging:
-      +schema: dbt_bronze
       +materialized: view
     intermediate:
-      +schema: dbt_bronze
       +materialized: view
     silver:
       +schema: dbt_silver
