@@ -1,19 +1,19 @@
 -- Axi employees merged with odata should have matching first names
 select
-    employee_id,
-    first_name,
-    ssn
-from {{ ref('employees') }}
-where source = 'axi'
-  and employee_id in (
+    e.employee_id,
+    e.first_name,
+    e.ssn
+from {{ ref('employees') }} e
+where e.source = 'axi'
+  and e.employee_id in (
       select employeeid from {{ source('axi_odata', 'vw_employees') }}
   )
   and (
-      first_name is null
-      or first_name != (
+      e.first_name is null
+      or e.first_name != (
           select firstname
           from {{ source('axi_odata', 'vw_employees') }} od
-          where od.employeeid = employees.employee_id
-            and od.source = employees.source
+          where od.employeeid = e.employee_id
+            and od.source = e.source
       )
   )

@@ -6,28 +6,51 @@ models:
       Consolidated employee dimension combining ISL/ASPEN bronze sources with
       AXI odata. ISL/ASPEN values take precedence over odata via COALESCE logic.
       Includes HASH_KEY (natural key) and HASH_KEY_FOR_UPDATE (change detection).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: ['employee_id', 'source', 'client_id']
     columns:
       - name: employee_id
         description: Unique employee identifier within source system.
         tests:
-          - not_null
+          - not_null:
+              arguments: {}
       - name: source
         description: Source system code (axi or asp).
         tests:
-          - not_null
+          - not_null:
+              arguments: {}
           - accepted_values:
               arguments:
                 values: ['axi', 'asp']
       - name: hash_key
         description: MD5 hash of employee_id, source, and client_id.
         tests:
-          - not_null
-          - unique
+          - not_null:
+              arguments: {}
+          - unique:
+              arguments: {}
       - name: hash_key_for_update
         description: SHA256 hash of all attribute columns for change detection.
         tests:
-          - not_null
+          - not_null:
+              arguments: {}
       - name: legal_id
         description: Legal entity identifier from lookup table.
       - name: hr_client_id
         description: HR client identifier from lookup table.
+      - name: ssn
+        description: Social Security Number.
+        tests:
+          - not_null:
+              arguments: {}
+          - unique:
+              arguments: {}
+              
+      - name: first_name
+        description: First name.
+        tests:
+          - not_null:
+              arguments: {}
+
